@@ -1,4 +1,4 @@
-package com.flavio;
+package com.slick;
 
 public class Compiler {
 }
