@@ -184,9 +184,12 @@ Erro Semântico: operador '+' não suportado entre LAP e FLAG na linha 12
 
 ---
 
-## 👤 Autor
+## 👤 Autores
 
-**Flávio Cerqueira Santos Júnior**  
+**Flávio Cerqueira Santos Júnior**<br>
+**Guilherme Andrade Matos**<br>
+**Luiz Fernando Badaró Villas Bôas**<br>
+
 Engenharia de Software — UCSAL  
 Disciplina: Compiladores
 
