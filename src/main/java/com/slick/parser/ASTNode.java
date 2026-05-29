@@ -1,5 +1,5 @@
 package com.slick.parser;
 
-abstract class ASTNode {
+public abstract class ASTNode {
 
 }
