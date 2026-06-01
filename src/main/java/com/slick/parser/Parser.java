@@ -60,19 +60,16 @@ public class Parser {
         String lapOrFlag="";
         String param;
         eat(TokenType.RACE);
-        String name = eat(TokenType.IDENTIFIER).toString();
+        String name = eat(TokenType.IDENTIFIER).getValue();
         eat(TokenType.LPAREN);
-        while (!peek().equals(TokenType.RPAREN)){
+        while (!check(TokenType.RPAREN)){
             if(check(TokenType.LAP)) {
-                eat(TokenType.LAP);
-                lapOrFlag = peek().toString();
+                lapOrFlag = eat(TokenType.LAP).getValue();
             }
             if(check(TokenType.FLAG)) {
-                eat(TokenType.FLAG);
-                lapOrFlag = peek().toString();
+                lapOrFlag = eat(TokenType.FLAG).getValue();
             }
-            eat(TokenType.IDENTIFIER);
-            param=peek().toString();
+            param = eat(TokenType.IDENTIFIER).getValue();
             params.add(new String[]{lapOrFlag,param});
             if(check(TokenType.COMMA)) eat(TokenType.COMMA);
         }
