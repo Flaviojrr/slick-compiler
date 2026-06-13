@@ -177,8 +177,8 @@ public class Lexer {
         switch (c){
             case '(':return new Token(TokenType.LPAREN ,String.valueOf(c),line,colunmNumber);
             case ')':return new Token(TokenType.RPAREN ,String.valueOf(c),line,colunmNumber);
-            case '{':return new Token(TokenType.LBRANCE ,String.valueOf(c),line,colunmNumber);
-            case '}':return new Token(TokenType.RBRANCE ,String.valueOf(c),line,colunmNumber);
+            case '{':return new Token(TokenType.LBRACE,String.valueOf(c),line,colunmNumber);
+            case '}':return new Token(TokenType.RBRACE,String.valueOf(c),line,colunmNumber);
             case ';':return new Token(TokenType.SEMICOLON ,String.valueOf(c),line,colunmNumber);
             case ',':return new Token(TokenType.COMMA ,String.valueOf(c),line,colunmNumber);
             case '+':return new Token(TokenType.PLUS ,String.valueOf(c),line,colunmNumber);

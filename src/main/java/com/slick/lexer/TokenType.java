@@ -14,7 +14,7 @@ public enum TokenType {
     EQ,NEQ,LT,GT,
     ASSIGN,
     LPAREN,RPAREN,
-    LBRANCE,RBRANCE,
+    LBRACE, RBRACE,
     COMMA,SEMICOLON,
     EOF,
     ERROR,
