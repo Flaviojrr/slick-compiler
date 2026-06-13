@@ -44,11 +44,11 @@ public class Parser {
 
     public ProgramNode parseProgram(){
         List<ASTNode> declarations = new ArrayList<>();
-        while(!isAtEnd()) declarations.add(parserDeclaration());
+        while(!isAtEnd()) declarations.add(parseDeclaration());
         return new ProgramNode(declarations);
     }
 
-    private ASTNode parserDeclaration(){
+    private ASTNode parseDeclaration(){
         if(check(TokenType.RACE)) return parseFuncDecl();
         return parseStatement();
     }
@@ -80,36 +80,72 @@ public class Parser {
     private ASTNode parseStatement() {
         if(check(TokenType.PIT)) return parseIf();
         else if (check(TokenType.SECTOR)) return parserWhile();
-        else if (check(TokenType.PODIUM)) return parserWhile();
-        else if (check(TokenType.RADIO)) return parserWhile();
-        else if (check(TokenType.TELEMETRY)) return parserWhile();
-        else if (check(TokenType.LAP)||check(TokenType.FLAG)) return parserWhile();
-        else if (check(TokenType.IDENTIFIER)) return parserWhile();
+        else if (check(TokenType.PODIUM)) return parseReturn();
+        else if (check(TokenType.RADIO)) return parseRadio();
+        else if (check(TokenType.TELEMETRY)) return parseTelemetry();
+        else if (check(TokenType.LAP)||check(TokenType.FLAG)) return parseVarDecl();
+        else if (check(TokenType.IDENTIFIER)) return parseAssign();
         else throw new RuntimeException("Erro Sintático: token inesperado '" + peek().getValue()+" na linha "+peek().getLine()+", coluna "+peek().getColumn());
     }
 
-    private ASTNode parseAssing() {
-        return null;
+    private AssignNode parseAssign() {
+        String name;
+        ASTNode value;
+        name = eat(TokenType.IDENTIFIER).getValue();
+        eat(TokenType.ASSIGN);
+        value = parseExpression();
+        eat(TokenType.SEMICOLON);
+        return new AssignNode(name,value);
     }
 
-    private ASTNode parseVarDecl() {
-        return null;
+    private VarDeclNode parseVarDecl() {
+        String type;
+        String name;
+        ASTNode initializer;
+        if(check(TokenType.LAP)) type=eat(TokenType.LAP).getValue();
+        else type=eat(TokenType.FLAG).getValue();
+        name = eat(TokenType.IDENTIFIER).getValue();
+        if(check(TokenType.ASSIGN)){
+            eat(TokenType.ASSIGN);
+            initializer=parseExpression();
+        }else {initializer=null;}
+        eat(TokenType.SEMICOLON);
+        return new VarDeclNode(type, name, initializer);
     }
 
-    private ASTNode parseTelemetry0() {
-        return null;
+    private TelemetryNode parseTelemetry() {
+        eat(TokenType.TELEMETRY);
+        String nome = eat(TokenType.IDENTIFIER).getValue();
+        eat(TokenType.SEMICOLON);
+        return new TelemetryNode(nome);
     }
 
-    private ASTNode parseRadio() {
-        return null;
+    private RadioNode parseRadio() {
+        eat(TokenType.RADIO);
+        ASTNode expression = parseExpression();
+        eat(TokenType.SEMICOLON);
+        return new RadioNode(expression);
     }
 
-    private ASTNode parseReturn() {
-        return null;
+    private ReturnNode parseReturn() {
+        ASTNode value=null;
+        eat(TokenType.PODIUM);
+        if(check(TokenType.SEMICOLON)) {
+            eat(TokenType.SEMICOLON);
+            return new ReturnNode(value);
+        }
+        value = parseExpression();
+        eat(TokenType.SEMICOLON);
+        return new ReturnNode(value);
     }
 
-    private ASTNode parserWhile() {
-        return null;
+    private WhileNode parserWhile() {
+        eat(TokenType.SECTOR);
+        eat(TokenType.LPAREN);
+        ASTNode condition = parseExpression();
+        eat(TokenType.RPAREN);
+        BlockNode body = parseBlock();
+        return new WhileNode(condition,body);
     }
 
     private IfNode parseIf() {
