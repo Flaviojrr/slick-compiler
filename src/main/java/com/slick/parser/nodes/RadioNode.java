@@ -8,4 +8,11 @@ public class RadioNode extends ASTNode {
     public RadioNode(ASTNode expression) {
         this.expression = expression;
     }
+
+    @Override
+    public String toString() {
+        return "RadioNode{" +
+                "expression=" + expression +
+                '}';
+    }
 }

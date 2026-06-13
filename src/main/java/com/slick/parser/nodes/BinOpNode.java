@@ -12,4 +12,13 @@ public class BinOpNode extends ASTNode {
         this.operator = operator;
         this.right = right;
     }
+
+    @Override
+    public String toString() {
+        return "BinOpNode{" +
+                "left=" + left +
+                ", operator='" + operator + '\'' +
+                ", right=" + right +
+                '}';
+    }
 }

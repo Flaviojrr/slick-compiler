@@ -8,4 +8,11 @@ public class TelemetryNode extends ASTNode {
     public TelemetryNode(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "TelemetryNode{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

@@ -38,4 +38,13 @@ public class FuncDeclNode extends ASTNode {
     public void setBody(BlockNode body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "FuncDeclNode{" +
+                "name='" + name + '\'' +
+                ", params=" + params +
+                ", body=" + body +
+                '}';
+    }
 }

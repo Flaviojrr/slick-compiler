@@ -10,4 +10,12 @@ public class WhileNode extends ASTNode {
         this.condition = condition;
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "WhileNode{" +
+                "condition=" + condition +
+                ", body=" + body +
+                '}';
+    }
 }

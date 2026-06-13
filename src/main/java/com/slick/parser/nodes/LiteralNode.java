@@ -10,4 +10,12 @@ public class LiteralNode extends ASTNode {
         this.value = value;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "LiteralNode{" +
+                "value=" + value +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

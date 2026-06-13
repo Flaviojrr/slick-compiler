@@ -11,4 +11,10 @@ public class ProgramNode extends ASTNode {
         this.declarations = declarations;
     }
 
+    @Override
+    public String toString() {
+        return "ProgramNode{" +
+                "declarations=" + declarations +
+                '}';
+    }
 }

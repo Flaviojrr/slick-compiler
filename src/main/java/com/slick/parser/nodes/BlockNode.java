@@ -10,4 +10,11 @@ public class BlockNode extends ASTNode {
     public BlockNode(List<ASTNode> statements) {
         this.statements = statements;
     }
+
+    @Override
+    public String toString() {
+        return "BlockNode{" +
+                "statements=" + statements +
+                '}';
+    }
 }

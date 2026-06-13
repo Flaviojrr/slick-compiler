@@ -12,4 +12,12 @@ public class CallNode extends ASTNode {
         this.name = name;
         this.arguments = arguments;
     }
+
+    @Override
+    public String toString() {
+        return "CallNode{" +
+                "name='" + name + '\'' +
+                ", arguments=" + arguments +
+                '}';
+    }
 }

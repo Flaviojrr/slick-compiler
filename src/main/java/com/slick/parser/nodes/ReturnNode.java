@@ -8,4 +8,11 @@ public class ReturnNode extends ASTNode {
     public ReturnNode(ASTNode value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "ReturnNode{" +
+                "value=" + value +
+                '}';
+    }
 }

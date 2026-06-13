@@ -12,4 +12,13 @@ public class VarDeclNode extends ASTNode {
         this.name = name;
         this.initializer = initializer;
     }
+
+    @Override
+    public String toString() {
+        return "VarDeclNode{" +
+                "type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", initializer=" + initializer +
+                '}';
+    }
 }
