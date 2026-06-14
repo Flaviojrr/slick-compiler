@@ -35,6 +35,29 @@ public class SemanticAnalyzer {
             if (!table.contains(i.name)){
                 throw new Exception("Identificador '" + i.name + "' não declarado.");
             }
+        }else if (node instanceof IfNode) {
+            IfNode i = (IfNode) node;
+            analyze(i.condition);
+            analyze(i.thenBlock);
+            if (i.elseBlock != null) analyze(i.elseBlock);
+        } else if (node instanceof WhileNode) {
+            WhileNode w = (WhileNode) node;
+            analyze(w.condition);
+            analyze(w.body);
+        } else if (node instanceof BinOpNode) {
+            BinOpNode b = (BinOpNode) node;
+            analyze(b.left);
+            analyze(b.right);
+        } else if (node instanceof RadioNode) {
+            RadioNode r = (RadioNode) node;
+            analyze(r.expression);
+        } else if (node instanceof ReturnNode) {
+            ReturnNode r = (ReturnNode) node;
+            if (r.value != null) analyze(r.value);
+        } else if (node instanceof LiteralNode) {
+        } else if (node instanceof CallNode) {
+        } else if (node instanceof TelemetryNode) {
         }
+    }
 }
-}
+
