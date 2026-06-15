@@ -1,8 +1,8 @@
-# Compilador SLICK
+# Compilador SLICK 🏎️
 
 > Inspirado no pneu slick da Fórmula 1 — usado no limite máximo da performance.
 
-SLICK é uma linguagem de programação compilada desenvolvida como projeto da disciplina de Compiladores da UCSAL (7º semestre). O compilador é implementado em Java e traduz arquivos `.slick` através das cinco fases clássicas de um compilador.
+SLICK é uma linguagem de programação criada do zero, compilada por um compilador implementado em Java. Arquivos SLICK têm extensão `.slick` e são executados pela **SlickVM** — uma máquina virtual própria desenvolvida junto com o compilador.
 
 ---
 
@@ -27,18 +27,24 @@ SLICK é uma linguagem de programação compilada desenvolvida como projeto da d
 ## Exemplo de Programa
 
 ```slick
-lap x;
-x = 10;
-lap y;
-y = 5;
-lap resultado;
-resultado = x + y;
-radio resultado;
-```
+// calcula voltas restantes e verifica se pode continuar
+race verificar(lap total, lap feitas) {
+    lap restantes;
+    restantes = total - feitas;
+    podium restantes;
+}
 
-Saída:
-```
-15
+lap totalVoltas;
+lap voltasFeitas;
+
+telemetry totalVoltas;
+telemetry voltasFeitas;
+
+pit (voltasFeitas < totalVoltas) {
+    radio verificar(totalVoltas, voltasFeitas);
+} stay {
+    radio yellow;
+}
 ```
 
 ---
@@ -58,37 +64,19 @@ arquivo.slick
 [C] SemanticAnalyzer   -> AST validada + tabela de símbolos
       |
       v
-[D] TACGenerator       -> Código de Três Endereços (representação intermediária)
+[D] TACGenerator       -> Código de Três Endereços
       |
       v
 [E] SlickVM            -> execução e saída
 ```
 
-### Fase A — Análise Léxica
-O `Lexer` lê o código fonte caractere por caractere e produz uma lista de tokens. Reconhece palavras reservadas, identificadores, números, operadores e símbolos. Espaços em branco e comentários `//` são ignorados. Teoria aplicada: Expressões Regulares e Autômatos Finitos Determinísticos (AFD).
-
-### Fase B — Análise Sintática
-O `Parser` consome a lista de tokens e constrói uma Árvore de Sintaxe Abstrata (AST) usando o método de Descida Recursiva. Cada regra da gramática corresponde a um método dedicado.
-
-### Fase C — Análise Semântica
-O `SemanticAnalyzer` percorre a AST e valida a lógica do programa usando uma `SymbolTable`. Detecta variáveis não declaradas e declarações duplicadas.
-
-### Fase D — Geração de Código Intermediário
-O `TACGenerator` percorre a AST e gera instruções de Código de Três Endereços (TAC). Cada instrução tem o formato `op resultado arg1 arg2`.
-
-Exemplo de TAC para `resultado = x + y`:
-```
-ASSIGN  t0          10    null
-ASSIGN  x           t0    null
-ASSIGN  t1          5     null
-ASSIGN  y           t1    null
-ADD     t2          x     y
-ASSIGN  resultado   t2    null
-PRINT   null        resultado  null
-```
-
-### Fase E — Execução (SlickVM)
-A `SlickVM` interpreta a AST diretamente, executando os statements e avaliando as expressões. As variáveis são armazenadas em um `HashMap<String, Object>`. A VM suporta aritmética, comparações, condicionais, laços, funções e E/S.
+| Fase | Pacote | Responsabilidade |
+|------|--------|-----------------|
+| Léxica | `com.slick.lexer` | Texto → tokens |
+| Sintática | `com.slick.parser` | Tokens → AST |
+| Semântica | `com.slick.semantic` | Validação de tipos e escopos |
+| Geração IR | `com.slick.codegen` | AST → TAC |
+| Execução | `com.slick.vm` | Executa o programa na SlickVM |
 
 ---
 
@@ -131,14 +119,15 @@ Slick/
 │   └── vm/
 │       └── SlickVM.java
 └── examples/
-    └── hello.slick
+    ├── hello.slick
+    └── corrida.slick
 ```
 
 ---
 
 ## Como Compilar e Executar
 
-### Requisitos
+### Pré-requisitos
 - Java 17+
 - Maven 3+
 
@@ -156,22 +145,43 @@ java -cp target/classes com.slick.Compiler examples/hello.slick
 ```
 === SLICK COMPILER ===
 
-[LEXER]    OK - 27 tokens gerados
-[PARSER]   OK - AST construída
-[SEMANTIC] OK - sem erros
+[LEXER]    OK - 27 tokens generated
+[PARSER]   OK - AST built
+[SEMANTIC] OK - no errors
 
-[TAC] Código intermediário:
+[TAC] Intermediate code:
 -----------------------
 ASSIGN  t0   10   null
 ASSIGN  x    t0   null
 ...
 -----------------------
 
-[VM] Executando...
+[VM] Running...
 -----------------------
-Saída:
+Output:
 15
 -----------------------
+```
+
+---
+
+## Detecção de Erros
+
+O compilador detecta e reporta três categorias de erro:
+
+**Erro léxico** — caractere inválido:
+```
+Erro Léxico: caractere inválido '@' na linha 3, coluna 12
+```
+
+**Erro sintático** — estrutura inválida:
+```
+Erro Sintático: esperava ')' mas encontrou ';' na linha 5, coluna 8
+```
+
+**Erro semântico** — variável não declarada ou duplicada:
+```
+Erro Semântico: variável 'voltas' não declarada na linha 7, coluna 5
 ```
 
 ---
@@ -207,8 +217,20 @@ primary     ::= NUMBER | "green" | "yellow"
 
 ---
 
+## Status do Desenvolvimento
+
+- ✅ Fase A — Análise Léxica
+- ✅ Fase B — Análise Sintática
+- ✅ Fase C — Análise Semântica
+- ✅ Fase D — Geração de TAC
+- ✅ Fase E — SlickVM
+
+---
+
 ## Equipe
 
 - Flávio Cerqueira Santos Júnior
-- UCSAL — Engenharia de Software — 7º Semestre
-- Disciplina: Compiladores
+- Guilherme Andrade Matos
+- Luiz Fernando Badaró Villas Bôas
+
+Engenharia de Software — UCSAL — Disciplina: Compiladores
