@@ -1,0 +1,7 @@
+lap x;
+x = 10;
+lap y;
+y = 5;
+lap resultado;
+resultado = x + y;
+radio resultado;

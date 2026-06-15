@@ -107,7 +107,7 @@ public class Lexer {
      */
     private void skipWhiteSpace(){
         char charPeek = peek();
-        while(charPeek==' '||charPeek=='\t'||charPeek=='\n') {
+        while(charPeek==' '||charPeek=='\t'||charPeek=='\n'||charPeek=='\r') {
             advance();
             charPeek = peek();
         }

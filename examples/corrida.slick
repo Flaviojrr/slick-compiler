@@ -1,0 +1,39 @@
+lap totalVoltas;
+lap voltasFeitas;
+lap melhorVolta;
+lap tempoAtual;
+flag podeContinuar;
+
+telemetry totalVoltas;
+telemetry voltasFeitas;
+telemetry melhorVolta;
+
+pit (voltasFeitas < totalVoltas) {
+    podeContinuar = green;
+    radio podeContinuar;
+} stay {
+    podeContinuar = yellow;
+    radio podeContinuar;
+}
+
+lap voltasRestantes;
+voltasRestantes = totalVoltas - voltasFeitas;
+radio voltasRestantes;
+
+lap i;
+i = 0;
+sector (i < totalVoltas) {
+    tempoAtual = i + 1;
+    radio tempoAtual;
+    i = i + 1;
+}
+
+lap soma;
+soma = totalVoltas + voltasFeitas;
+lap diferenca;
+diferenca = totalVoltas - voltasFeitas;
+lap produto;
+produto = totalVoltas * voltasFeitas;
+radio soma;
+radio diferenca;
+radio produto;
